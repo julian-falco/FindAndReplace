@@ -1,8 +1,25 @@
+import os
+
+def getSeriesNameAndNum(dirPath):
+    """Return the series name and section number in a given folder"""
+    
+    os.chdir(dirPath)
+    # find the series file
+    for file in os.listdir("."):
+        if file.endswith(".ser"):
+            seriesName = str(file).replace(".ser", "")
+    
+    # find out how many sections there are
+    sectionNum = 0
+    while os.path.isfile(seriesName + "." + str(sectionNum)):
+        sectionNum += 1
+        
+    return seriesName, sectionNum
+
 try:
     # gather inputs
     filePath = input("What is the file path for the folder containing the series?: ")
-    seriesName = input("What is the name of the series?: ")
-    sectNum = int(input("What is the number of sections in the series? (include the 0 section): "))
+    seriesName, sectNum = getSeriesNameAndNum(filePath)
 
     # warn user that the trace files will be rewritten
     input("\nWARNING: This program will edit the trace files and cannot be undone.\n" +
